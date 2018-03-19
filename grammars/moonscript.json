@@ -465,17 +465,17 @@
       "patterns": [
         {
           "comment": "Instance variables like @foo",
-          "match": "(@)([a-zA-Z_\\$]\\w*)?",
+          "match": "(@)([a-zA-Z_\\$](\\w|\\$)*)?",
           "name": "variable.instance.moon"
         },
         {
           "comment": "the A/B in A.B.C",
           "name": "variable.object.moon",
-          "match": "(?<!\\.)[a-zA-Z\\$_]\\w*(?=\\.)"
+          "match": "(?<!\\.)[a-zA-Z\\$_](\\w|\\$)*(?=\\.)"
         },
         {
           "comment": "the C in A.B.C",
-          "match": "(\\.)([a-zA-Z\\$_]\\w*)",
+          "match": "(\\.)([a-zA-Z\\$_](\\w|\\$)*)",
           "captures": {
             "1": {
               "name": "keyword.operator.accessor.moon"
@@ -487,7 +487,7 @@
         },
         {
           "name": "variable.moon",
-          "match": "[a-zA-Z\\$_]\\w*"
+          "match": "[a-zA-Z\\$_](\\w|\\$)*"
         }
       ]
     },
