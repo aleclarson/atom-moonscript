@@ -269,6 +269,9 @@
           "include": "#brackets"
         },
         {
+          "include": "#function_call"
+        },
+        {
           "include": "#variable_name"
         },
         {
