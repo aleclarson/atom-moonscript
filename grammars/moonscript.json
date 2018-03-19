@@ -9,15 +9,6 @@
   "foldingStopMarker": "^\\s*$|^\\s*[}\\]]\\s*$",
   "patterns": [
     {
-      "captures": {
-        "1": {
-          "name": "entity.name.type.class"
-        }
-      },
-      "match": "(\\b[A-Z]\\w*)\\s*",
-      "name": "entity.name.type.class.moon"
-    },
-    {
       "begin": "'''",
       "beginCaptures": {
         "0": {
