@@ -320,8 +320,26 @@
           "name": "meta.function.parameters.moon",
           "patterns": [
             {
-              "match": "([^,\\s]+)(?=\\)|,)",
-              "name": "variable.parameter.function.moon"
+              "match": "([^,=\\s]+)\\s*(?=\\)|=|,)",
+              "captures": {
+                "1": {
+                  "name": "variable.parameter.function.moon"
+                }
+              }
+            },
+            {
+              "begin": "\\s*(=)\\s*",
+              "beginCaptures": {
+                "1": {
+                  "name": "keyword.operator.assignment.moon"
+                }
+              },
+              "end": "(?=,|\\))",
+              "patterns": [
+                {
+                  "include": "#expression"
+                }
+              ]
             },
             {
               "match": ",",
