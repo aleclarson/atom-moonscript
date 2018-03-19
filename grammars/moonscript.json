@@ -92,7 +92,7 @@
       "name": "keyword.operator.assignment.moon"
     },
     {
-      "match": "(?x)\\b(?<![\\.\\$])(\\b(if|then|else|elseif|export|import|from|switch|and|or|not|when|with|using|do|for|in|while|return|unless|continue|break|local)\\b)(?!\\s*:)\\b",
+      "match": "\\b(?<![\\.\\$])(\\b(if|then|else|elseif|export|import|from|switch|and|or|not|when|with|using|do|for|in|while|return|unless|continue|break|local)\\b)(?!\\s*:)\\b",
       "name": "keyword.control.moon"
     },
     {
@@ -133,48 +133,62 @@
       }
     },
     {
+      "match": "(@?[a-zA-Z\\$_](?:\\w|\\$)*(?:\\.(?:\\w|\\$)+)*)\\s*(?=(:|[^='\"]*(\\s|\\b)=(?!=)|[%\\+\\-\\*\\/]=|and=|or=|\\.\\.=))",
       "captures": {
         "1": {
           "name": "variable.assignment.moon"
         },
-        "5": {
+        "2": {
+          "name": "meta.delimiter.comma.moon"
+        },
+        "3": {
           "name": "keyword.operator.moon"
         }
-      },
-      "match": "([a-zA-Z\\$_](\\w|\\$|\\.)*\\s*(?=((:)|(=(?!=))|(\\+=)|(\\-=)|(\\.\\.=)|(\\*=)|(%=)))(?!(\\s*\\(.*\\))?\\s*([=-]>)))",
-      "name": "variable.assignment.moon"
+      }
     },
     {
-      "begin": "(?<=\\s|^)(\\{)(?=.+?\\}\\s+[:=])",
+      "begin": "\\{(?=.+?\\}\\s*(=(?!=)))",
       "beginCaptures": {
         "0": {
-          "name": "keyword.operator.moon"
+          "name": "meta.brace.curly.moon"
         }
       },
-      "end": "(\\}\\s*[:=])",
+      "end": "(\\})\\s*(=(?!=))",
       "endCaptures": {
-        "0": {
-          "name": "keyword.operator.moon"
+        "1": {
+          "name": "meta.brace.curly.moon"
+        },
+        "2": {
+          "name": "keyword.operator.assignment.moon"
         }
       },
-      "name": "meta.variable.assignment.destructured.object.moon",
+      "name": "meta.destructured.object.moon",
       "patterns": [
         {
-          "include": "#variable_name"
+          "name": "variable.assignment.moon",
+          "match": "(?:(:)|@)?[a-zA-Z\\$_](?:\\w|\\$)*(?:\\.[a-zA-Z\\$_](\\w|\\$)*)*",
+          "captures": {
+            "1": {
+              "name": "keyword.operator.moon"
+            }
+          }
         },
         {
-          "include": "#instance_variable"
-        },
-        {
-          "include": "#string"
-        },
-        {
-          "include": "#numeric"
+          "match": ",",
+          "name": "meta.delimiter.comma.moon"
         }
       ]
     },
     {
       "include": "#function"
+    },
+    {
+      "match": ",",
+      "name": "meta.delimiter.comma.moon"
+    },
+    {
+      "match": ":|=(?!=)|[%\\+\\-\\*\\/]=|\\.\\.=",
+      "name": "keyword.operator.assignment.moon"
     },
     {
       "match": "\\b(?<!\\.)(true|false|nil)(?!\\s*[:=])\\b",
@@ -200,23 +214,14 @@
     },
     {
       "match": "(?x)\\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\\b",
-      "name": "support.function.moon"
+      "name": "entity.support.function.moon"
     },
     {
-      "match": "@?[A-Za-z_]\\w+(?=\\(|!|[ ]+(\"|'|\\{|-?(?!if|then|else|elseif|export|import|from|and|or|not|with|for|in|while|return|unless|continue|break|local)\\w+))",
-      "name": "support.function.moon"
+      "include": "#function_call"
     },
     {
       "match": "\\b(coroutine\\.(create|resume|running|status|wrap|yield)|string\\.(byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)|table\\.(concat|insert|maxn|remove|sort)|math\\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)|io\\.(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)|os\\.(clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\\.(cpath|loaded|loadlib|path|preload|seeall)|debug\\.(debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback))\\b",
-      "name": "support.function.moon"
-    },
-    {
-      "match": ",[ |\\t]*",
-      "name": "meta.delimiter.object.comma.moon"
-    },
-    {
-      "match": "\\.",
-      "name": "meta.delimiter.method.period.moon"
+      "name": "entity.support.function.moon"
     },
     {
       "include": "#table"
@@ -226,9 +231,6 @@
     },
     {
       "include": "#brackets"
-    },
-    {
-      "include": "#instance_variable"
     },
     {
       "include": "#variable_name"
@@ -259,16 +261,57 @@
           "include": "#operator"
         },
         {
-          "include": "#variable_name"
+          "include": "#function_call"
         },
         {
-          "include": "#instance_variable"
+          "include": "#variable_name"
         },
         {
           "include": "#numeric"
         },
         {
           "include": "#string"
+        }
+      ]
+    },
+    "expression": {
+      "patterns": [
+        {
+          "include": "#table"
+        },
+        {
+          "include": "#parens"
+        },
+        {
+          "include": "#brackets"
+        },
+        {
+          "include": "#variable_name"
+        },
+        {
+          "include": "#numeric"
+        },
+        {
+          "include": "#string"
+        }
+      ]
+    },
+    "interpolated_moon": {
+      "patterns": [
+        {
+          "begin": "\\#\\{",
+          "captures": {
+            "0": {
+              "name": "punctuation.section.embedded.moon"
+            }
+          },
+          "end": "\\}",
+          "name": "source.moon.embedded.source",
+          "patterns": [
+            {
+              "include": "$self"
+            }
+          ]
         }
       ]
     },
@@ -306,44 +349,37 @@
         }
       ]
     },
-    "instance_variable": {
+    "function_call": {
       "patterns": [
         {
-          "match": "(@)([a-zA-Z_\\$]\\w*)?",
-          "name": "variable.other.readwrite.instance.moon"
-        }
-      ]
-    },
-    "interpolated_moon": {
-      "patterns": [
+          "comment": "x.@ or x.1",
+          "match": "\\.(@|\\d)(?:[A-Za-z\\$_](?:\\w|\\$)*)*",
+          "name": "invalid.illegal.moon"
+        },
         {
-          "begin": "\\#\\{",
+          "match": "(\\.)?(@?[A-Za-z\\$_](\\w|\\$)*)(?=!|\\(\\)|(\\(|[ ]+)(@|\"|'|-|#|\\{|(?!if|then|else|elseif|and|or|from|for|in|while|unless)(\\w|\\$)))",
           "captures": {
-            "0": {
-              "name": "punctuation.section.embedded.moon"
+            "1": {
+              "name": "keyword.operator.accessor.moon"
+            },
+            "2": {
+              "name": "entity.function.moon"
             }
-          },
-          "end": "\\}",
-          "name": "source.moon.embedded.source",
-          "patterns": [
-            {
-              "include": "$self"
-            }
-          ]
-        }
-      ]
-    },
-    "numeric": {
-      "patterns": [
+          }
+        },
         {
-          "match": "(?<!\\$)\\b((0([box])[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?(e[+\\-]?[0-9]+)?))\\b",
-          "name": "constant.numeric.moon"
+          "match": "(?<=\\w|\\$)!",
+          "name": "keyword.operator.moon"
         }
       ]
     },
     "operator": {
       "name": "keyword.operator.moon",
       "match": "~=|%|\\^|\\*|\\/|(\\-)?\\-(?!>)|\\+|==|=(?!>)|!=|<=|>=|\\.\\.=|<|>|\\.\\.(\\.)?|\\||\\|\\|\\*=|(?<!\\()/=|%=|\\+=|\\-=|\\b(?<![\\.\\$])(and|or|not)(?!\\s*:)\\b"
+    },
+    "numeric": {
+      "match": "(?<!\\$)\\b((0([box])[0-9a-fA-F]+)|([0-9]+(\\.[0-9]+)?(e[+\\-]?[0-9]+)?))\\b",
+      "name": "constant.numeric.moon"
     },
     "parens": {
       "begin": "\\(",
@@ -437,8 +473,30 @@
     "variable_name": {
       "patterns": [
         {
-          "name": "variable.assignment.moon",
-          "match": "[a-zA-Z\\$_]\\w*(\\.[a-zA-Z\\$_]\\w*)*"
+          "comment": "Instance variables like @foo",
+          "match": "(@)([a-zA-Z_\\$]\\w*)?",
+          "name": "variable.instance.moon"
+        },
+        {
+          "comment": "the A/B in A.B.C",
+          "name": "variable.object.moon",
+          "match": "(?<!\\.)[a-zA-Z\\$_]\\w*(?=\\.)"
+        },
+        {
+          "comment": "the C in A.B.C",
+          "match": "(\\.)([a-zA-Z\\$_]\\w*)",
+          "captures": {
+            "1": {
+              "name": "keyword.operator.accessor.moon"
+            },
+            "2": {
+              "name": "variable.property.moon"
+            }
+          }
+        },
+        {
+          "name": "variable.moon",
+          "match": "[a-zA-Z\\$_]\\w*"
         }
       ]
     },
