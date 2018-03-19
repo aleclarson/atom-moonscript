@@ -361,7 +361,7 @@
           "name": "invalid.illegal.moon"
         },
         {
-          "match": "(\\.)?(@?[A-Za-z\\$_](\\w|\\$)*)(?=!|\\(\\)|(\\(|[ ]+)(@|\"|'|-|#|\\{|(?!if|then|else|elseif|and|or|from|for|in|while|unless)(\\w|\\$)))",
+          "match": "(\\.)?(@?[A-Za-z\\$_](\\w|\\$)*)(?=!|\\(\\)|\\(|[ ]+(@|\"|'|-[^ ]|#|\\(|\\{|(?!(if|then|else|elseif|and|or|from|for|in|while|unless)\\b)(\\w|\\$)))",
           "captures": {
             "1": {
               "name": "keyword.operator.accessor.moon"
