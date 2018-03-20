@@ -278,6 +278,9 @@
           "include": "#numeric"
         },
         {
+          "include": "#operator"
+        },
+        {
           "include": "#string"
         }
       ]
